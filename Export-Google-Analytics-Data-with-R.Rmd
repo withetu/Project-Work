@@ -15,6 +15,7 @@ install_github("skardhamar/rga", force = TRUE)
 install.packages("httr")
 install.packages("xlsx")
 install.packages("RODBC")
+install.packages("RMySQL")
 library(devtools)
 library(curl)
 library(RCurl)
@@ -24,7 +25,8 @@ library(httr)
 library(rga)
 library(ggplot2)
 library(xlsx)
-library(RODBC)  
+library(RODBC)
+library(RMySQL)
 
 rga.open(instance = "ga")
 id <- 46730774
@@ -40,15 +42,30 @@ gaData <- ga$getData(id, start.date = as.Date("2016-10-01"),
                      ##dimensions = "ga:date", filter = "ga:country=~United States|Canada;ga:medium==organic",
                      ##sort = "-ga:pageviews", batch = TRUE)
 
-gaData <- ga$getData(id, start.date = as.Date("2016-10-01"), 
-                   end.date=as.Date("2016-10-31"), metrics = "ga:pageviews",
-                   dimensions = "ga:date")
+## gaData <- ga$getData(id, start.date = as.Date("2016-10-01"), 
+                  ## end.date=as.Date("2016-10-31"), metrics = "ga:pageviews",
+                   ## dimensions = "ga:date")
 
 ggplot(gaData, aes(date, pageviews)) + geom_line() + 
   ylab("Daily Pageviews") + theme_bw() + 
   ggtitle("Monthly Pageviews")
 
 write.csv(gaData, "ALC-GA-OCT1.csv")
+
+## write your data to a workbook called My Data Export.xlsx and a sheet called Data
+
+wb <- createWorkbook() #create a new workbook
+sheet <- createSheet(wb, sheetName = "Data") #create a sheet named Data
+addDataFrame(gaData, sheet, row.names = FALSE) #add your data to the Data sheet
+#don't forget to save your workbook
+#this will save to your working directory
+saveWorkbook(wb, "My Data Export.xlsx")
+
+## drv = dbDriver("MySQL")
+## con = dbConnect(drv, host="localhost", dbname="GAData", user="root", pass="enter1234")
+## mydb = dbConnect(MySQL(), user='withetu', password='enter1234', dbname='GA-Data', host='localhost')
+
+
 getwd()
 ```
 
