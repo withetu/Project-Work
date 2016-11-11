@@ -61,14 +61,23 @@ addDataFrame(gaData, sheet, row.names = FALSE) #add your data to the Data sheet
 #this will save to your working directory
 saveWorkbook(wb, "My Data Export.xlsx")
 
-#drv = dbDriver("MySQL")
-#con = dbConnect(drv, host="localhost", dbname="withetu", user="withetu", pass="enter1234")
-## mydb = dbConnect(MySQL(), user='withetu', password='enter1234', dbname='GA-Data', host='localhost')
+drv = dbDriver("MySQL")
+con = dbConnect(drv, host="localhost", dbname="gadata", user="withetu", pass="enter1234") ## open a connection to a MySQL database
+dbListTables(con) ## list the tables in the database
+data(gaData) ## load a data frame into the database, deleting any existing copy
+dbWriteTable(con, "oct", gaData, overwrite = TRUE) 
+dbListTables(con)
+dbReadTable(con, "oct") ## get the whole table
+#dbListFields(con, "gadata")
+## Select from the loaded table
+dbGetQuery(con, paste("select row_names, pageviews from oct", "where AvgSessionDuration > 200 order by pageviews"))
+#dbRemoveTable(con, "arrests")
+#dbDisconnect(con)
 
-# mydb = dbConnect(MySQL(), user = 'withetu', password = 'enter1234', dbname = 'sandipaul', host = 'localhost')
-#channel <- odbcConnect("test", uid = "withetu", pwd = "enter1234")
-odbcDataSources()
 
+
+
+odbcGetInfo(channel)
 
 getwd()
 ```
