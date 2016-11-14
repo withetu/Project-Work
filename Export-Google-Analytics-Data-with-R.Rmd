@@ -10,12 +10,6 @@ Try executing this chunk by clicking the *Run* button within the chunk or by pla
 ```{r}
 ## SRC: http://www.lunametrics.com/blog/2015/11/23/export-google-analytics-data-with-r/ 
 
-install.packages("devtools")
-install_github("skardhamar/rga", force = TRUE)
-install.packages("httr")
-install.packages("xlsx")
-install.packages("RODBC")
-install.packages("RMySQL")
 library(devtools)
 library(curl)
 library(RCurl)
