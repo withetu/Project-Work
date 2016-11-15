@@ -14,6 +14,10 @@ install.packages("httr")
 install.packages("xlsx")
 install.packages("RODBC")
 install.packages("RMySQL")
+install.packages("svglite")
+vignette("fonts")
+install.packages("stringi")
+install.packages("caret")
 
 ```
 

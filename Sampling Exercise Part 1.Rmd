@@ -1,0 +1,49 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+#http://r-exercises.com/2016/11/13/sampling-exercise-1/
+
+library(caTools)
+attach(iris)
+
+#Set the seed to 100
+set.seed(100)
+
+#use the function sample.split with a SplitRatio=0.7 to split the dataset into two folds using the species class. store the results in the variable split
+split = sample.split(iris$Species, SplitRatio = 0.7)
+
+#use subset function to subset the dataframe where the split is True. Store this result in the variable called Train
+Train = subset(iris, split == TRUE)
+
+#Store the other 30 percent of the sample in the variable Test. Use the same subset method.
+Test = subset(iris, split == FALSE)
+
+#Print out the number of rows in the Test and Train variables. You should see 70 percent of data in the Train and 30 percent in the Test.
+nrow(Train)
+nrow(Test)
+
+#Install and load the library “caret”
+library(caret)
+
+#Set the seed to 500 and use the createDataPartition to do the same 2 fold split as Q3 but with a 80:20 ratio with List=FALSE
+createDataPartition(p = 0.8, list = FALSE, iris$Species)
+
+#Use the createDataPartition function to create 5 different samples of the training data.
+createDataPartition(p = 0.8, list = FALSE, time = 5, iris$Species)
+
+#We know how to make 2 splits now and make 5 different samples. But what about 5 equal splits? Use the createFolds() command to make 5 equal partitions of iris data-set. Make sure that each partitiion has an equal representation of the species class as much as possible.
+createFolds(iris$Species, k=5)
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
